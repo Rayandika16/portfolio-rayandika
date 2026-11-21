@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    text { fill: #0F172A; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #FFFFFF; }
+    }
+  </style>
+  <text x="50" y="72" text-anchor="middle" font-family="system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, Helvetica, Arial, sans-serif" font-weight="800" font-size="64" letter-spacing="-2">RP</text>
+</svg>
