@@ -11,19 +11,19 @@ export const NAV_LINKS = [
 
 export const content = {
   profile: {
-    name: 'Rayan',
-    title: 'Software Engineer',
-    email: 'rayan@email.com', // TODO: ganti dengan alamat Gmail Anda
-    linkedin: '', // mis. 'https://www.linkedin.com/in/username' (kosongkan untuk menyembunyikan)
+    name: 'RP',
+    title: 'Rayandika',
+    email: 'rayandika10@gmail.com', // TODO: ganti dengan alamat Gmail Anda
+    linkedin: 'https://www.linkedin.com/in/rayandika', // mis. 'https://www.linkedin.com/in/username' (kosongkan untuk menyembunyikan)
     resume: '', // mis. '/resume.pdf' (taruh file di folder public/) — kosongkan untuk menyembunyikan
   },
 
   hero: {
-    badge: 'Terbuka untuk Posisi Software Engineering & Sistem Teknis',
-    headline: 'Software Engineer yang membangun aplikasi bisnis andal dan sistem teknis yang tangguh.',
+    badge: 'Open to Work & Projects',
+    headline: 'Frontend Web Developer.',
     subheadline:
-      'Lulusan Teknik Informatika Universitas Pamulang. Berfokus pada pengembangan platform web terstruktur, perangkat operasional internal, dan penyiapan teknis langsung yang tahan gangguan.',
-    primaryCta: 'Lihat Studi Kasus',
+      'Halo, saya Rayandika Putra. Saya berfokus pada pengembangan Frontend Website serta memiliki pemahaman teknis di bidang jaringan komputer. Silakan hubungi saya jika Anda tertarik dengan karya-karya saya.',
+    primaryCta: 'View More',
   },
 
   credibility: [
@@ -34,8 +34,8 @@ export const content = {
 
   sections: {
     work: {
-      title: 'Karya pilihan',
-      description: 'Perusahaan dan organisasi yang pernah saya bantu, beserta apa yang saya kerjakan. Klik untuk melihat rinciannya.',
+      title: 'Proyek',
+      description: 'Perusahaan dan organisasi yang pernah saya bantu, beserta apa yang saya kerjakan. Dari mulai proyek nyata dan latihan.',
       cta: 'Lihat Semua Proyek',
     },
     projectsPage: {
