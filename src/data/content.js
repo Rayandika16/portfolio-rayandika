@@ -4,6 +4,7 @@
 // Logo perusahaan: folder public/logos/  (mis. '/logos/npl-indo.png')
 
 export const NAV_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'Karya Pilihan', href: '/#work' },
   { label: 'Sertifikasi', href: '/#certifications' },
   { label: 'Kontak', href: '/#contact' },
@@ -135,7 +136,7 @@ export const content = {
     // Isi dengan URL form Formspree (mis. 'https://formspree.io/f/xxxxxxx') agar pesan dari pengunjung
     // langsung terkirim ke Gmail Anda tanpa pengunjung membuka apa pun. Langkahnya ada di README.
     // Jika dikosongkan: tombol "Kirim pesan" membuka tab Gmail dengan pesan yang sudah terisi.
-    formEndpoint: '',
+    formEndpoint: 'https://formspree.io/f/mdkkrnyk',
   },
 
   footer: { text: '© 2026 Rayan. Dibangun dengan React & Tailwind CSS.' },

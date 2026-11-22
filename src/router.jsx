@@ -19,8 +19,11 @@ export function Router({ children }) {
   }, [])
 
   const navigate = useCallback((to) => {
-    window.history.pushState({}, '', to)
-    setLoc(read())
+    // Simpan hash untuk scroll, tapi push URL tanpa hash agar URL tetap bersih
+    const [pathname, hash] = to.split('#')
+    const cleanPath = pathname || '/'
+    window.history.pushState({}, '', cleanPath)
+    setLoc({ path: cleanPath.replace(/\/+$/, '') || '/', hash: hash ? `#${hash}` : '' })
   }, [])
 
   // Setelah pindah halaman: gulir ke #bagian bila ada, kalau tidak ke atas.
