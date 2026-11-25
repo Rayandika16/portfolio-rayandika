@@ -136,10 +136,10 @@ export const content = {
     // Isi dengan URL form Formspree (mis. 'https://formspree.io/f/xxxxxxx') agar pesan dari pengunjung
     // langsung terkirim ke Gmail Anda tanpa pengunjung membuka apa pun. Langkahnya ada di README.
     // Jika dikosongkan: tombol "Kirim pesan" membuka tab Gmail dengan pesan yang sudah terisi.
-    formEndpoint: 'https://formspree.io/f/mdkkrnyk',
+    formEndpoint: '-',
   },
 
-  footer: { text: '© 2026 Rayan. Dibangun dengan React & Tailwind CSS.' },
+  footer: { text: '© 2026 Rayandika Putra.' },
 }
 
 export const DEFAULT_CONTENT = content
