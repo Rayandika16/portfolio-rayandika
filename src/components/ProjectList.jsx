@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import Reveal from './Reveal'
 import CaseStudyModal from './CaseStudyModal'
+import { Badge } from './ui/badge'
 
 const initialsOf = (name = '') => {
   const w = name.replace(/^(cv|pt)\.?\s+/i, '').trim().split(/\s+/).filter(Boolean)
@@ -12,7 +13,7 @@ const initialsOf = (name = '') => {
 function LogoTile({ logo, name }) {
   const [failed, setFailed] = useState(false)
   return (
-    <span className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white md:h-[4.5rem] md:w-[4.5rem]">
+    <span className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-muted/70 ring-1 ring-foreground/10 md:h-[4.5rem] md:w-[4.5rem]">
       {logo && !failed ? (
         <img
           src={logo}
@@ -22,7 +23,7 @@ function LogoTile({ logo, name }) {
           className="h-full w-full object-contain p-2.5"
         />
       ) : (
-        <span className="font-mono text-lg font-medium text-slate-500" aria-hidden="true">
+        <span className="font-mono text-lg font-medium text-muted-foreground" aria-hidden="true">
           {initialsOf(name)}
         </span>
       )}
@@ -32,11 +33,11 @@ function LogoTile({ logo, name }) {
 
 function ProjectRow({ project, onOpen }) {
   return (
-    <article className="group relative -mx-3 flex w-[calc(100%+1.5rem)] items-start gap-5 rounded-lg px-3 py-6 text-left transition-colors hover:bg-white">
+    <article className="group relative flex h-full items-start gap-5 rounded-2xl bg-card p-6 text-left ring-1 ring-foreground/10 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-foreground/20">
       <LogoTile logo={project.logo} name={project.client || project.title} />
       <div className="min-w-0 flex-1">
-        {project.client && <p className="text-sm text-slate-500">{project.client}</p>}
-        <h3 className="mt-0.5 text-lg font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand">
+        {project.client && <p className="text-sm text-muted-foreground">{project.client}</p>}
+        <h3 className="mt-0.5 text-lg font-semibold leading-snug text-card-foreground transition-colors group-hover:text-brand">
           <button
             type="button"
             onClick={onOpen}
@@ -46,17 +47,16 @@ function ProjectRow({ project, onOpen }) {
             {project.title}
           </button>
         </h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+        <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
           {project.short || project.description}
         </p>
         {Array.isArray(project.stack) && project.stack.length > 0 && (
-          <ul aria-label="Teknologi" className="mt-3 flex flex-wrap gap-1.5">
+          <ul aria-label="Teknologi" className="mt-3.5 flex flex-wrap gap-1.5">
             {project.stack.slice(0, 5).map((tech) => (
-              <li
-                key={tech}
-                className="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[11px] text-slate-600"
-              >
-                {tech}
+              <li key={tech}>
+                <Badge variant="outline" className="font-mono text-[11px] text-muted-foreground">
+                  {tech}
+                </Badge>
               </li>
             ))}
           </ul>
@@ -64,7 +64,7 @@ function ProjectRow({ project, onOpen }) {
       </div>
       <ArrowUpRight
         size={18}
-        className="mt-1 shrink-0 text-slate-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand"
+        className="mt-1 shrink-0 text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand"
         aria-hidden="true"
       />
     </article>
@@ -77,9 +77,9 @@ export default function ProjectList({ projects }) {
 
   return (
     <>
-      <ul className="grid gap-x-14 md:grid-cols-2">
+      <ul className="grid gap-5 md:grid-cols-2">
         {projects.map((p, i) => (
-          <Reveal as="li" key={p.id} delay={(i % 2) * 0.06} className="border-t border-slate-200">
+          <Reveal as="li" key={p.id} delay={(i % 2) * 0.06} className="h-full">
             <ProjectRow project={p} onOpen={() => setActive(p)} />
           </Reveal>
         ))}

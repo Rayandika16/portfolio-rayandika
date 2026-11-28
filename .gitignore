@@ -1,7 +1,28 @@
+# Dependensi & hasil build
 node_modules
 dist
+dist-ssr
+*.local
+
+# Environment & kunci rahasia
 .env
-.vercel
+.env.*
 .env.example
-info.md
+
+# Konfigurasi & catatan internal proyek
+.vercel
 supabase/
+info.md
+docs/
+tests/
+.superpowers/
+.worktrees/
+worktrees/
+
+# File sistem operasi & log
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

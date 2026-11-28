@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
+import { Button } from './ui/button'
 
 // Modal dasar: Escape menutup, fokus terkunci di dalam, fokus kembali ke pemicu, gulir halaman dikunci.
 export default function Modal({ open, onClose, labelledBy, maxWidth = 'max-w-4xl', children }) {
@@ -37,7 +38,7 @@ export default function Modal({ open, onClose, labelledBy, maxWidth = 'max-w-4xl
       {open && (
         <div key="modal" className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           <motion.div
-            className="absolute inset-0 bg-slate-900/45"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -50,21 +51,23 @@ export default function Modal({ open, onClose, labelledBy, maxWidth = 'max-w-4xl
             role="dialog"
             aria-modal="true"
             aria-labelledby={labelledBy}
-            initial={{ opacity: 0, y: 16, scale: 0.985 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.985 }}
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className={`relative flex max-h-[90vh] w-full ${maxWidth} flex-col overflow-hidden rounded-xl bg-white shadow-xl`}
+            className={`relative flex max-h-[90vh] w-full ${maxWidth} flex-col overflow-hidden rounded-3xl bg-popover text-popover-foreground shadow-2xl ring-1 ring-foreground/10`}
           >
-            <button
+            <Button
               ref={closeRef}
               type="button"
+              variant="outline"
+              size="icon-sm"
               onClick={onClose}
               aria-label="Tutup"
-              className="absolute right-3 top-3 z-10 rounded-full border border-slate-200 bg-white/95 p-2 text-slate-700 shadow-sm transition-colors hover:bg-slate-100"
+              className="absolute right-4 top-4 z-10 bg-popover/90 shadow-sm backdrop-blur-sm"
             >
-              <X size={20} />
-            </button>
+              <X size={18} />
+            </Button>
             {children}
           </motion.div>
         </div>

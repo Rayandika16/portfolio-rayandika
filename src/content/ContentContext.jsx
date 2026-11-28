@@ -30,6 +30,6 @@ export function ContentProvider({ children }) {
     return () => { cancelled = true }
   }, [])
 
-  if (!content) return <div className="min-h-screen bg-white" aria-busy="true" />
+  if (!content) return <div className="min-h-screen bg-background" aria-busy="true" />
   return <Ctx.Provider value={content}>{children}</Ctx.Provider>
 }

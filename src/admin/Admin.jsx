@@ -4,6 +4,9 @@ import { supabase, isSupabaseConfigured } from '../lib/supabase'
 import { fetchContent, normalizeContent, saveContent } from '../lib/contentApi'
 import { sanitizeContent } from '../lib/sanitize'
 import { DEFAULT_CONTENT } from '../data/content'
+import ThemeToggle from '../components/ThemeToggle'
+import { Button, buttonVariants } from '../components/ui/button'
+import { Card } from '../components/ui/card'
 import { Field, FileField, LinesField, ListEditor, Panel, SelectField, Toggle, inputCls } from './ui'
 
 const TABS = [
@@ -16,20 +19,30 @@ const TABS = [
 
 const newId = () => Math.random().toString(36).slice(2, 10)
 
-const Screen = ({ children }) => <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">{children}</main>
+const Screen = ({ children }) => (
+  <main className="relative flex min-h-screen items-center justify-center bg-muted/35 px-4 py-10">
+    <div className="fixed right-4 top-4 z-20">
+      <ThemeToggle />
+    </div>
+    {children}
+  </main>
+)
 
 function NotConfigured() {
   return (
     <Screen>
-      <div className="w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 className="text-xl font-semibold text-slate-900">Supabase belum dikonfigurasi</h1>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">
-          Isi <code className="rounded bg-slate-100 px-1 font-mono text-xs">VITE_SUPABASE_URL</code> dan{' '}
-          <code className="rounded bg-slate-100 px-1 font-mono text-xs">VITE_SUPABASE_PUBLISHABLE_KEY</code> di file <code className="rounded bg-slate-100 px-1 font-mono text-xs">.env</code>{' '}
+      <Card className="w-full max-w-lg gap-3 p-6 shadow-sm">
+        <h1 className="text-xl font-semibold text-card-foreground">Supabase belum dikonfigurasi</h1>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Isi <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">VITE_SUPABASE_URL</code> dan{' '}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">VITE_SUPABASE_PUBLISHABLE_KEY</code> di file{' '}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">.env</code>{' '}
           (dan di Environment Variables Vercel), lalu jalankan ulang. Langkah lengkap ada di README.
         </p>
-        <a href="/" className="mt-4 inline-block text-sm text-slate-500 hover:text-slate-800">← Kembali ke website</a>
-      </div>
+        <a href="/" className="mt-2 inline-block text-sm text-muted-foreground transition-colors hover:text-foreground">
+          ← Kembali ke website
+        </a>
+      </Card>
     </Screen>
   )
 }
@@ -51,25 +64,50 @@ function Login() {
 
   return (
     <Screen>
-      <form onSubmit={submit} className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 className="text-xl font-semibold text-slate-900">Panel Admin</h1>
-        <p className="mt-1 text-sm text-slate-500">Masuk untuk mengubah isi website.</p>
-        <div className="mt-6 space-y-4">
-          <div>
-            <label htmlFor="em" className="text-sm font-medium text-slate-900">Email</label>
-            <input id="em" type="email" autoComplete="username" autoFocus required value={email} onChange={(e) => setEmail(e.target.value)} className={`${inputCls} mt-1.5`} />
+      <Card className="w-full max-w-sm gap-0 p-6 shadow-sm">
+        <form onSubmit={submit}>
+          <h1 className="text-xl font-semibold text-card-foreground">Panel Admin</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Masuk untuk mengubah isi website.</p>
+          <div className="mt-6 space-y-4">
+            <div>
+              <label htmlFor="em" className="text-sm font-medium text-card-foreground">Email</label>
+              <input
+                id="em"
+                type="email"
+                autoComplete="username"
+                autoFocus
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`${inputCls} mt-2`}
+              />
+            </div>
+            <div>
+              <label htmlFor="pw" className="text-sm font-medium text-card-foreground">Kata sandi</label>
+              <input
+                id="pw"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={pw}
+                onChange={(e) => setPw(e.target.value)}
+                className={`${inputCls} mt-2`}
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="pw" className="text-sm font-medium text-slate-900">Kata sandi</label>
-            <input id="pw" type="password" autoComplete="current-password" required value={pw} onChange={(e) => setPw(e.target.value)} className={`${inputCls} mt-1.5`} />
-          </div>
-        </div>
-        {err && <p role="alert" className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-800">{err}</p>}
-        <button type="submit" disabled={busy} className="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-70">
-          {busy && <Loader2 size={16} className="animate-spin" aria-hidden="true" />} Masuk
-        </button>
-        <a href="/" className="mt-4 block text-center text-sm text-slate-500 hover:text-slate-800">← Kembali ke website</a>
-      </form>
+          {err && (
+            <p role="alert" className="mt-4 rounded-2xl bg-destructive/10 px-4 py-2.5 text-sm font-medium text-destructive">
+              {err}
+            </p>
+          )}
+          <Button type="submit" size="lg" disabled={busy} className="mt-6 w-full">
+            {busy && <Loader2 size={16} className="animate-spin" aria-hidden="true" />} Masuk
+          </Button>
+          <a href="/" className="mt-4 block text-center text-sm text-muted-foreground transition-colors hover:text-foreground">
+            ← Kembali ke website
+          </a>
+        </form>
+      </Card>
     </Screen>
   )
 }
@@ -274,35 +312,57 @@ function Dashboard() {
     await supabase.auth.signOut()
   }
 
-  if (loadErr) return <Screen><p role="alert" className="rounded-md bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{loadErr}</p></Screen>
-  if (!draft) return <Screen><p className="text-sm text-slate-500">Memuat…</p></Screen>
+  if (loadErr) {
+    return (
+      <Screen>
+        <p role="alert" className="rounded-2xl bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive">
+          {loadErr}
+        </p>
+      </Screen>
+    )
+  }
+  if (!draft) return <Screen><p className="text-sm text-muted-foreground">Memuat…</p></Screen>
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div className="min-h-screen bg-muted/35">
+      <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <h1 className="text-base font-semibold text-slate-900">Panel Admin</h1>
+          <h1 className="text-base font-semibold text-foreground">Panel Admin</h1>
           <div className="flex flex-wrap items-center gap-2">
-            {dirty && <span className="text-xs font-medium text-amber-700">Belum disimpan</span>}
-            <a href="/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
+            {dirty && (
+              <span className="rounded-4xl bg-amber-500/15 px-3 py-1 text-xs font-medium text-amber-700 dark:text-amber-300">
+                Belum disimpan
+              </span>
+            )}
+            <ThemeToggle />
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+            >
               <ExternalLink size={15} aria-hidden="true" /> Lihat situs
             </a>
-            <button type="button" onClick={logout} className="inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
+            <Button type="button" variant="ghost" size="sm" onClick={logout}>
               <LogOut size={15} aria-hidden="true" /> Keluar
-            </button>
-            <button type="button" onClick={save} disabled={saving || !dirty} className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50">
+            </Button>
+            <Button type="button" variant="default" size="default" onClick={save} disabled={saving || !dirty}>
               {saving ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <Save size={15} aria-hidden="true" />} Simpan
-            </button>
+            </Button>
           </div>
         </div>
-        <nav aria-label="Bagian" className="mx-auto flex max-w-4xl gap-1 overflow-x-auto px-4">
+        <nav aria-label="Bagian" className="mx-auto flex max-w-4xl gap-1 overflow-x-auto px-4 pb-3">
           {TABS.map(([id, label]) => (
             <button
               key={id}
               type="button"
               onClick={() => setTab(id)}
               aria-current={tab === id ? 'page' : undefined}
-              className={`whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition-colors ${tab === id ? 'border-brand text-brand' : 'border-transparent text-slate-600 hover:text-slate-900'}`}
+              className={`whitespace-nowrap rounded-4xl px-4 py-1.5 text-sm font-medium transition-colors ${
+                tab === id
+                  ? 'bg-secondary text-secondary-foreground ring-1 ring-foreground/10'
+                  : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground'
+              }`}
             >
               {label}
             </button>
@@ -310,9 +370,19 @@ function Dashboard() {
         </nav>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-6">
+      <main className="mx-auto max-w-4xl px-4 py-8">
         <div role="status" aria-live="polite">
-          {toast.text && <p className={`mb-4 rounded-md px-3 py-2 text-sm font-medium ${toast.type === 'ok' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`}>{toast.text}</p>}
+          {toast.text && (
+            <p
+              className={`mb-5 rounded-2xl px-4 py-3 text-sm font-medium ${
+                toast.type === 'ok'
+                  ? 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/25 dark:bg-status/15 dark:text-emerald-300'
+                  : 'bg-destructive/10 text-destructive ring-1 ring-destructive/20'
+              }`}
+            >
+              {toast.text}
+            </p>
+          )}
         </div>
         {tab === 'umum' && <TabUmum d={draft} upd={upd} />}
         {tab === 'teks' && <TabTeks d={draft} upd={upd} />}
@@ -326,7 +396,7 @@ function Dashboard() {
 
 /* ------------------------- Pintu masuk ------------------------- */
 function Gate() {
-  const [session, setSession] = useState(undefined) // undefined = memuat
+  const [session, setSession] = useState(undefined)
   const [isAdmin, setIsAdmin] = useState(undefined)
 
   useEffect(() => {
@@ -342,19 +412,24 @@ function Gate() {
     supabase.rpc('is_admin').then(({ data, error }) => setIsAdmin(error ? false : data === true))
   }, [userId])
 
-  if (session === undefined) return <Screen><p className="text-sm text-slate-500">Memuat…</p></Screen>
+  if (session === undefined) return <Screen><p className="text-sm text-muted-foreground">Memuat…</p></Screen>
   if (!session) return <Login />
-  if (isAdmin === undefined) return <Screen><p className="text-sm text-slate-500">Memeriksa akses…</p></Screen>
+  if (isAdmin === undefined) return <Screen><p className="text-sm text-muted-foreground">Memeriksa akses…</p></Screen>
   if (!isAdmin) {
     return (
       <Screen>
-        <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h1 className="text-lg font-semibold text-slate-900">Akun ini bukan admin</h1>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Anda masuk sebagai <strong>{session.user.email}</strong>, tetapi akun ini belum terdaftar sebagai admin. Jalankan <code className="rounded bg-slate-100 px-1 font-mono text-xs">supabase/make-admin.sql</code> dengan email ini (lihat README).
+        <Card className="w-full max-w-md gap-3 p-6 shadow-sm">
+          <h1 className="text-lg font-semibold text-card-foreground">Akun ini bukan admin</h1>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Anda masuk sebagai <strong className="text-foreground">{session.user.email}</strong>, tetapi akun ini belum terdaftar sebagai admin. Jalankan{' '}
+            <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">supabase/make-admin.sql</code> dengan email ini (lihat README).
           </p>
-          <button type="button" onClick={() => supabase.auth.signOut()} className="mt-4 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Keluar</button>
-        </div>
+          <div>
+            <Button type="button" onClick={() => supabase.auth.signOut()} className="mt-2">
+              Keluar
+            </Button>
+          </div>
+        </Card>
       </Screen>
     )
   }
